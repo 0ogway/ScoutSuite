@@ -44,31 +44,32 @@ class AzureServicesConfig(BaseServicesConfig):
                              programmatic_execution)
 
         self.aad = AAD(facade)
-        self.rbac = RBAC(facade)
-        self.securitycenter = SecurityCenter(facade)
-        self.sqldatabase = Servers(facade)
-        self.storageaccounts = StorageAccounts(facade)
-        self.keyvault = KeyVaults(facade)
-        self.network = Networks(facade)
-        self.virtualmachines = VirtualMachines(facade)
-        self.appservice = AppServices(facade)
-        self.mysqldatabase = MySQLServers(facade)
-        self.postgresqldatabase = PostgreSQLServers(facade)
-        self.loggingmonitoring = LoggingMonitoring(facade)
+        if len(subscription_ids) > 0:
+            self.rbac = RBAC(facade)
+            self.securitycenter = SecurityCenter(facade)
+            self.sqldatabase = Servers(facade)
+            self.storageaccounts = StorageAccounts(facade)
+            self.keyvault = KeyVaults(facade)
+            self.network = Networks(facade)
+            self.virtualmachines = VirtualMachines(facade)
+            self.appservice = AppServices(facade)
+            self.mysqldatabase = MySQLServers(facade)
+            self.postgresqldatabase = PostgreSQLServers(facade)
+            self.loggingmonitoring = LoggingMonitoring(facade)
 
-        # Instantiate proprietary services
-        try:
-            self.appgateway = ApplicationGateways(facade)
-        except NameError as _:
-            pass
-        try:
-            self.loadbalancer = LoadBalancers(facade)
-        except NameError as _:
-            pass
-        try:
-            self.rediscache = RedisCaches(facade)
-        except NameError as _:
-            pass
+            # Instantiate proprietary services
+            try:
+                self.appgateway = ApplicationGateways(facade)
+            except NameError as _:
+                pass
+            try:
+                self.loadbalancer = LoadBalancers(facade)
+            except NameError as _:
+                pass
+            try:
+                self.rediscache = RedisCaches(facade)
+            except NameError as _:
+                pass
 
     def _is_provider(self, provider_name):
         return provider_name == 'azure'
